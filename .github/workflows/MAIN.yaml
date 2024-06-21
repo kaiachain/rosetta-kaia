@@ -40,7 +40,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: kaiachain1/rosetta-kaia:${{ steps.vars.outputs.tag }}
+          tags: kaiachain/rosetta-kaia:${{ steps.vars.outputs.tag }}
       - name: Latest tag Build and push
         uses: docker/build-push-action@v3
         with:
