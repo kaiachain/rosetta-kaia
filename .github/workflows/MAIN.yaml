@@ -1,8 +1,8 @@
-name: rosetta-klaytn main workflow
+name: rosetta-kaia master workflow
 on:
   pull_request:
     branches:
-      - main
+      - master
     types: [closed]
 jobs:
   tagging-master:
@@ -40,7 +40,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: klaytn/rosetta-klaytn:${{ steps.vars.outputs.tag }}
+          tags: kaiachain/rosetta-kaia:${{ steps.vars.outputs.tag }}
       - name: Latest tag Build and push
         uses: docker/build-push-action@v3
         with:
@@ -48,4 +48,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: klaytn/rosetta-klaytn:latest
+          tags: kaiachain/rosetta-kaia:latest
