@@ -9,7 +9,7 @@ on:
       - test-dev-workflows
 jobs:
   tagging-master:
-    if: github.event.pull_request.merged == true
+    # kaia: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
