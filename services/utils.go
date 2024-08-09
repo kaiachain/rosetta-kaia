@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-// Modifications Copyright © 2022 Klaytn
-// Modified and improved for the Klaytn development.
 
 package services
 

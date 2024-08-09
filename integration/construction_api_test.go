@@ -22,12 +22,13 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	"github.com/kaiachain/rosetta-kaia/kaia"
 	klayTypes "github.com/klaytn/klaytn/blockchain/types"
 	"github.com/klaytn/klaytn/common/hexutil"
 	"github.com/klaytn/klaytn/crypto"
-	"github.com/klaytn/rosetta-klaytn/configuration"
-	"github.com/klaytn/rosetta-klaytn/klaytn"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -203,7 +204,7 @@ func TestConstructionMetadata(t *testing.T) {
 
 	expectedUnitPrice := new(big.Int).SetUint64(cfg.Params.UnitPrice)
 	expectedGasPrice := new(big.Int).Mul(expectedUnitPrice, big.NewInt(2))
-	transferGasLimit := new(big.Int).SetInt64(klaytn.TransferGasLimit)
+	transferGasLimit := new(big.Int).SetInt64(kaia.TransferGasLimit)
 	expectedTxFee := new(big.Int).Mul(expectedGasPrice, transferGasLimit)
 	assert.True(t, n > 0)
 	assert.Equal(t, gp, expectedGasPrice)
@@ -496,15 +497,15 @@ func setDefaultOperations() {
 	operations = []*types.Operation{
 		{
 			OperationIdentifier: &types.OperationIdentifier{Index: 0},
-			Type:                klaytn.CallOpType,
-			Status:              types.String(klaytn.SuccessStatus),
+			Type:                kaia.CallOpType,
+			Status:              types.String(kaia.SuccessStatus),
 			Account:             &types.AccountIdentifier{Address: testAccount.Addr.Hex()},
 			Amount:              &types.Amount{Value: "-1", Currency: &types.Currency{Symbol: "KLAY", Decimals: 18}},
 		},
 		{
 			OperationIdentifier: &types.OperationIdentifier{Index: 1},
-			Type:                klaytn.CallOpType,
-			Status:              types.String(klaytn.SuccessStatus),
+			Type:                kaia.CallOpType,
+			Status:              types.String(kaia.SuccessStatus),
 			Account:             &types.AccountIdentifier{Address: receiver.Addr.Hex()},
 			Amount:              &types.Amount{Value: "1", Currency: &types.Currency{Symbol: "KLAY", Decimals: 18}},
 		},

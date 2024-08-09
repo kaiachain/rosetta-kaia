@@ -14,12 +14,14 @@
 #
 # Modifications Copyright © 2022 Klaytn
 # Modified and improved for the Klaytn development
+# Modifications Copyright 2024 Rosetta-kaia developers
+# Modified and improved for the Kaia development
 
 # I used below command to make docker image (If you do not use the Mac M1 chip, remove `--platform=linux/amd64`).
-# docker build --platform=linux/amd64 -t rosetta-klaytn:latest .
+# docker build --platform=linux/amd64 -t rosetta-kaia:latest .
 # And i also used below command to run a docker container (If you do not use the Mac M1 chip, remove `--platform=linux/amd64`).
-# docker run --platform linux/amd64 --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "KEN=http://x.x.x.x:8551" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
-# docker run --platform linux/amd64 --rm --ulimit "nofile=100000:100000" -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -e "KEN=http://x.x.x.x:8551" -p 8081:8081 rosetta-klaytn:latest
+# docker run --platform linux/amd64 --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "KEN=http://x.x.x.x:8551" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
+# docker run --platform linux/amd64 --rm --ulimit "nofile=100000:100000" -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -e "KEN=http://x.x.x.x:8551" -p 8081:8081 rosetta-kaia:latest
 
 # Compile golang
 FROM ubuntu:20.04 as golang-builder
@@ -45,6 +47,7 @@ RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 # Compile ken
 FROM golang-builder as ken-builder
 
+# TODO-rosetta-kaia: update to use kaia repository
 # VERSION: klaytn v.1.10.1
 RUN git clone https://github.com/klaytn/klaytn \
   && cd klaytn \
@@ -56,7 +59,7 @@ RUN cd klaytn \
 RUN mv klaytn/build/bin/ken /app/ken \
   && rm -rf klaytn
 
-# Compile rosetta-klaytn
+# Compile rosetta-kaia
 FROM golang-builder as rosetta-builder
 
 # Use native remote build context to build in any directory
@@ -64,9 +67,9 @@ COPY . src
 RUN cd src \
   && go build
 
-RUN mv src/rosetta-klaytn /app/rosetta-klaytn \
-  && mkdir /app/klaytn \
-  && mv src/klaytn/ken.yaml /app/klaytn/ken.yaml \
+RUN mv src/rosetta-kaia /app/rosetta-kaia \
+  && mkdir /app/kaia \
+  && mv src/kaia/ken.yaml /app/kaia/ken.yaml \
   && rm -rf src
 
 ## Build Final Image
@@ -85,10 +88,10 @@ WORKDIR /app
 COPY --from=ken-builder /app/ken /app/ken
 
 # Copy binary from rosetta-builder
-COPY --from=rosetta-builder /app/klaytn /app/klaytn
-COPY --from=rosetta-builder /app/rosetta-klaytn /app/rosetta-klaytn
+COPY --from=rosetta-builder /app/kaia /app/kaia
+COPY --from=rosetta-builder /app/rosetta-kaia /app/rosetta-kaia
 
 # Set permissions for everything added to /app
 RUN chmod -R 755 /app/*
 
-CMD ["/app/rosetta-klaytn", "run"]
+CMD ["/app/rosetta-kaia", "run"]

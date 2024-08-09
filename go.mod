@@ -1,4 +1,4 @@
-module github.com/klaytn/rosetta-klaytn
+module github.com/kaiachain/rosetta-kaia
 
 require (
 	github.com/fatih/color v1.13.0

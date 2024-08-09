@@ -21,13 +21,11 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	"github.com/kaiachain/rosetta-kaia/kaia"
+	mocks "github.com/kaiachain/rosetta-kaia/mocks/services"
 	"github.com/klaytn/klaytn/common"
 	"github.com/klaytn/klaytn/params"
-	"github.com/klaytn/rosetta-klaytn/klaytn"
-
-	"github.com/klaytn/rosetta-klaytn/configuration"
-	mocks "github.com/klaytn/rosetta-klaytn/mocks/services"
-
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -53,8 +51,8 @@ func forceMarshalMap(t *testing.T, i interface{}) map[string]interface{} {
 
 func TestConstructionService(t *testing.T) {
 	networkIdentifier = &types.NetworkIdentifier{
-		Network:    klaytn.TestnetNetwork,
-		Blockchain: klaytn.Blockchain,
+		Network:    kaia.TestnetNetwork,
+		Blockchain: kaia.Blockchain,
 	}
 
 	cfg := &configuration.Configuration{
@@ -150,7 +148,7 @@ func TestConstructionService(t *testing.T) {
 		SuggestedFee: []*types.Amount{
 			{
 				Value:    "21000000000000",
-				Currency: klaytn.Currency,
+				Currency: kaia.Currency,
 			},
 		},
 	}, metadataResponse)

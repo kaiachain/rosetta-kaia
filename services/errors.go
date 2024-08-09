@@ -14,6 +14,8 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package services
 
@@ -27,7 +29,7 @@ var (
 	Errors = []*types.Error{
 		ErrUnimplemented,
 		ErrUnavailableOffline,
-		ErrKlaytnClient,
+		ErrClient,
 		ErrUnableToDecompressPubkey,
 		ErrUnclearIntent,
 		ErrUnableToParseIntermediateResult,
@@ -37,7 +39,7 @@ var (
 		ErrCallOutputMarshal,
 		ErrCallMethodInvalid,
 		ErrInvalidAddress,
-		ErrKlaytnClientNotReady,
+		ErrClientNotReady,
 		ErrInvalidInput,
 		ErrNotSupportedAPI,
 		ErrGetAccountAPI,
@@ -68,11 +70,11 @@ var (
 		Message: "Endpoint unavailable offline",
 	}
 
-	// ErrKlaytnClient is returned when Klaytn Node
+	// ErrClient is returned when Kaia Node
 	// errors on a request.
-	ErrKlaytnClient = &types.Error{
+	ErrClient = &types.Error{
 		Code:      2, // nolint
-		Message:   "klaytn client error",
+		Message:   "client error",
 		Retriable: true,
 	}
 
@@ -143,9 +145,9 @@ var (
 		Message: "Invalid address",
 	}
 
-	// ErrKlaytnClientNotReady is returned when Klaytn client
+	// ErrClientNotReady is returned when Klaytn client
 	// cannot yet serve any queries.
-	ErrKlaytnClientNotReady = &types.Error{
+	ErrClientNotReady = &types.Error{
 		Code:      13, // nolint
 		Message:   "Klaytn client not ready",
 		Retriable: true,
@@ -159,14 +161,14 @@ var (
 	}
 
 	// ErrNotSupportedAPI is returned when
-	// the API endpoint is not supported by rosetta-klaytn.
+	// the API endpoint is not supported by rosetta-kaia.
 	ErrNotSupportedAPI = &types.Error{
 		Code:    15, // nolint
 		Message: "not supported API",
 	}
 
 	// ErrGetAccountAPI is returned when
-	// the rosetta-klaytn cannot get an account
+	// the rosetta-kaia cannot get an account
 	// via klay_getAccount API.
 	ErrGetAccountAPI = &types.Error{
 		Code:    16, // nolint

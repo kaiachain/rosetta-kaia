@@ -14,8 +14,10 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development
 
-package klaytn
+package kaia
 
 import (
 	"fmt"

@@ -14,15 +14,16 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package services
 
 import (
 	"context"
 
-	"github.com/klaytn/rosetta-klaytn/klaytn"
-
-	"github.com/klaytn/rosetta-klaytn/configuration"
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	"github.com/kaiachain/rosetta-kaia/kaia"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/asserter"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
 )
@@ -61,16 +62,16 @@ func (s *NetworkAPIService) NetworkOptions(
 ) (*types.NetworkOptionsResponse, *types.Error) {
 	return &types.NetworkOptionsResponse{
 		Version: &types.Version{
-			NodeVersion:       klaytn.NodeVersion,
+			NodeVersion:       kaia.NodeVersion,
 			RosettaVersion:    types.RosettaAPIVersion,
 			MiddlewareVersion: types.String(configuration.MiddlewareVersion),
 		},
 		Allow: &types.Allow{
 			Errors:                  Errors,
-			OperationTypes:          klaytn.OperationTypes,
-			OperationStatuses:       klaytn.OperationStatuses,
-			HistoricalBalanceLookup: klaytn.HistoricalBalanceSupported,
-			CallMethods:             klaytn.CallMethods,
+			OperationTypes:          kaia.OperationTypes,
+			OperationStatuses:       kaia.OperationStatuses,
+			HistoricalBalanceLookup: kaia.HistoricalBalanceSupported,
+			CallMethods:             kaia.CallMethods,
 		},
 	}, nil
 }
@@ -86,11 +87,11 @@ func (s *NetworkAPIService) NetworkStatus(
 
 	currentBlock, currentTime, syncStatus, peers, err := s.client.Status(ctx)
 	if err != nil {
-		return nil, wrapErr(ErrKlaytnClient, err)
+		return nil, wrapErr(ErrClient, err)
 	}
 
 	if currentTime < asserter.MinUnixEpoch {
-		return nil, ErrKlaytnClientNotReady
+		return nil, ErrClientNotReady
 	}
 
 	return &types.NetworkStatusResponse{

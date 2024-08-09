@@ -14,8 +14,10 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development
 
-package klaytn
+package kaia
 
 import (
 	"bufio"
@@ -51,9 +53,9 @@ func logPipe(pipe io.ReadCloser, identifier string) error {
 	}
 }
 
-// StartKlaytnNode starts a Klaytn EN node daemon in another goroutine
+// StartNode starts a Kaia EN node daemon in another goroutine
 // and logs the results to the console.
-func StartKlaytnNode(ctx context.Context, arguments string, g *errgroup.Group) error {
+func StartNode(ctx context.Context, arguments string, g *errgroup.Group) error {
 	parsedArgs := strings.Split(arguments, " ")
 	cmd := exec.Command(
 		"/app/ken",
@@ -79,13 +81,13 @@ func StartKlaytnNode(ctx context.Context, arguments string, g *errgroup.Group) e
 	})
 
 	if err := cmd.Start(); err != nil {
-		return fmt.Errorf("%w: unable to start Klaytn EN node", err)
+		return fmt.Errorf("%w: unable to start Kaia EN node", err)
 	}
 
 	g.Go(func() error {
 		<-ctx.Done()
 
-		log.Println("sending interrupt to Klaytn EN node")
+		log.Println("sending interrupt to Kaia EN node")
 		return cmd.Process.Signal(os.Interrupt)
 	})
 

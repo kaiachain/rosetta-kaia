@@ -6,7 +6,7 @@
 ADDLICENSE_IGNORE=-ignore "**/*.xml" -ignore "**/*.sh" -ignore "**/*.yml" -ignore "**/*.yaml"
 ADDLICENSE_INSTALL=go install github.com/google/addlicense@latest
 ADDLICENSE_CMD=addlicense
-ADDLICENCE_SCRIPT=${ADDLICENSE_CMD} -c "Klaytn" -l "apache" -v ${ADDLICENSE_IGNORE}
+ADDLICENCE_SCRIPT=${ADDLICENSE_CMD} -c "Rosetta-kaia developers" -l "apache" -v ${ADDLICENSE_IGNORE}
 SPELLCHECK_CMD=go run github.com/client9/misspell/cmd/misspell
 GOLINES_INSTALL=go install github.com/segmentio/golines@latest
 GOLINES_CMD=golines
@@ -15,7 +15,7 @@ GOLINT_CMD=golint
 GOVERALLS_INSTALL=go install github.com/mattn/goveralls@latest
 GOVERALLS_CMD=goveralls
 GOIMPORTS_CMD=go run golang.org/x/tools/cmd/goimports
-GO_PACKAGES=./services/... ./cmd/... ./configuration/... ./klaytn/...
+GO_PACKAGES=./services/... ./cmd/... ./configuration/... ./kaia/...
 GO_FOLDERS=$(shell echo ${GO_PACKAGES} | sed -e "s/\.\///g" | sed -e "s/\/\.\.\.//g")
 TEST_SCRIPT=go test ${GO_PACKAGES}
 INTEGRATION_TEST_SCRIPT=go test ./integration/...
@@ -33,88 +33,88 @@ integration-test:
 	${INTEGRATION_TEST_SCRIPT}
 
 build:
-	docker build -t rosetta-klaytn:latest https://github.com/klaytn/rosetta-klaytn.git
+	docker build -t rosetta-kaia:latest https://github.com/kaiachain/rosetta-kaia.git
 
 build-m1:
-	docker build --platform linux/amd64 -t rosetta-klaytn:latest https://github.com/klaytn/rosetta-klaytn.git
+	docker build --platform linux/amd64 -t rosetta-kaia:latest https://github.com/kaiachain/rosetta-kaia.git
 
 build-local:
-	docker build -t rosetta-klaytn:latest .
+	docker build -t rosetta-kaia:latest .
 
 build-local-m1:
-	docker build --platform linux/amd64 -t rosetta-klaytn:latest .
+	docker build --platform linux/amd64 -t rosetta-kaia:latest .
 
 # make build-release -e "version=vx.x.x"
 build-release:
 	# make sure to always set version with vX.X.X
-	docker build -t rosetta-klaytn:$(version) .;
-	docker save rosetta-klaytn:$(version) | gzip > rosetta-klaytn-$(version).tar.gz;
+	docker build -t rosetta-kaia:$(version) .;
+	docker save rosetta-kaia:$(version) | gzip > rosetta-kaia-$(version).tar.gz;
 
 # make build-release-m1 -e "version=vx.x.x"
 build-release-m1:
 	# make sure to always set version with vX.X.X
-	docker build --platform linux/amd64 -t rosetta-klaytn:$(version) .;
-	docker save rosetta-klaytn:$(version) | gzip > rosetta-klaytn-$(version).tar.gz;
+	docker build --platform linux/amd64 -t rosetta-kaia:$(version) .;
+	docker save rosetta-kaia:$(version) | gzip > rosetta-kaia-$(version).tar.gz;
 
 update-bootstrap-balances:
-	go run main.go utils:generate-bootstrap klaytn/genesis_files/mainnet.json rosetta-cli-conf/mainnet/bootstrap_balances.json;
-	go run main.go utils:generate-bootstrap klaytn/genesis_files/testnet.json rosetta-cli-conf/testnet/bootstrap_balances.json;
-	go run main.go utils:generate-bootstrap klaytn/genesis_files/localnet.json rosetta-cli-conf/localnet/bootstrap_balances.json;
+	go run main.go utils:generate-bootstrap kaia/genesis_files/mainnet.json rosetta-cli-conf/mainnet/bootstrap_balances.json;
+	go run main.go utils:generate-bootstrap kaia/genesis_files/testnet.json rosetta-cli-conf/testnet/bootstrap_balances.json;
+	go run main.go utils:generate-bootstrap kaia/genesis_files/localnet.json rosetta-cli-conf/localnet/bootstrap_balances.json;
 
 run-mainnet-online:
-	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/klaytn-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/kaia-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-mainnet-online-m1:
-	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/klaytn-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/kaia-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-mainnet-offline:
-	docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+	docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 
 run-mainnet-offline-m1:
-	docker run --platform linux/amd64 -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 
 run-testnet-online:
-	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/klaytn-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/kaia-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-testnet-online-m1:
-	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/klaytn-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/kaia-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-testnet-offline:
-	docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+	docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 
 run-testnet-offline-m1:
-	docker run --platform linux/amd64 -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 
 run-local-online:
-	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/klaytn-data:/data" -e "MODE=ONLINE" -e "NETWORK=LOCAL" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/kaia-data:/data" -e "MODE=ONLINE" -e "NETWORK=LOCAL" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-local-online-m1:
-	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/klaytn-data:/data" -e "MODE=ONLINE" -e "NETWORK=LOCAL" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -v "${PWD}/kaia-data:/data" -e "MODE=ONLINE" -e "NETWORK=LOCAL" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-local-offline:
-	docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=LOCAL" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+	docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=LOCAL" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 
 run-local-offline-m1:
-	docker run --platform linux/amd64 -d --rm -e "MODE=OFFLINE" -e "NETWORK=LOCAL" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm -e "MODE=OFFLINE" -e "NETWORK=LOCAL" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 
 run-mainnet-remote:
-	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 # make run-mainnet-remote-m1 -e "ken=http://x.x.x.x:8551"
 run-mainnet-remote-m1:
-	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-testnet-remote:
-	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-testnet-remote-m1:
-	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-local-remote:
-	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=LOCAL" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=LOCAL" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 run-local-remote-m1:
-	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=LOCAL" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+	docker run --platform linux/amd64 -d --rm --ulimit "nofile=${NOFILE}:${NOFILE}" -e "MODE=ONLINE" -e "NETWORK=LOCAL" -e "PORT=8080" -e "KEN=$(ken)" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 
 check-comments:
 	${GOLINT_INSTALL}
@@ -163,6 +163,6 @@ coverage-local:
 mocks:
 	rm -rf mocks;
 	mockery --dir services --all --case underscore --outpkg services --output mocks/services;
-	mockery --dir klaytn --all --case underscore --outpkg klaytn --output mocks/klaytn;
+	mockery --dir kaia --all --case underscore --outpkg kaia --output mocks/kaia;
 	${ADDLICENSE_INSTALL}
 	${ADDLICENCE_SCRIPT} .;

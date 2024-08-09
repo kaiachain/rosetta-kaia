@@ -27,23 +27,24 @@ import (
 	"testing"
 	"time"
 
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	"github.com/kaiachain/rosetta-kaia/kaia"
+	"github.com/kaiachain/rosetta-kaia/services"
 	klaytnTypes "github.com/klaytn/klaytn/blockchain/types"
 	"github.com/klaytn/klaytn/blockchain/types/accountkey"
 	"github.com/klaytn/klaytn/client"
 	"github.com/klaytn/klaytn/common"
 	"github.com/klaytn/klaytn/crypto"
 	"github.com/klaytn/klaytn/params"
-	"github.com/klaytn/rosetta-klaytn/configuration"
-	"github.com/klaytn/rosetta-klaytn/klaytn"
-	"github.com/klaytn/rosetta-klaytn/services"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
+
 	"github.com/stretchr/testify/assert"
 )
 
 var (
 	networkIdf *types.NetworkIdentifier
 	cfg        *configuration.Configuration
-	c          *klaytn.Client
+	c          *kaia.Client
 	err        error
 
 	networkAPIService      *services.NetworkAPIService
@@ -108,10 +109,10 @@ func genTestConfig(t *testing.T) {
 }
 
 func genTestClient(t *testing.T) {
-	c, err = klaytn.NewClient(cfg.KlaytnNodeURL, cfg.Params, cfg.SkipAdmin)
+	c, err = kaia.NewClient(cfg.NodeURL, cfg.Params, cfg.SkipAdmin)
 	assert.Nil(t, err)
 
-	klaytnClient, err = client.Dial(cfg.KlaytnNodeURL)
+	klaytnClient, err = client.Dial(cfg.NodeURL)
 	assert.Nil(t, err)
 }
 

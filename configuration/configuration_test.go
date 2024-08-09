@@ -14,6 +14,8 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development
 
 package configuration
 
@@ -22,10 +24,10 @@ import (
 	"os"
 	"testing"
 
+	"github.com/kaiachain/rosetta-kaia/kaia"
 	"github.com/klaytn/klaytn/params"
-	"github.com/klaytn/rosetta-klaytn/klaytn"
-
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -60,14 +62,14 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    klaytn.MainnetNetwork,
-					Blockchain: klaytn.Blockchain,
+					Network:    kaia.MainnetNetwork,
+					Blockchain: kaia.Blockchain,
 				},
 				Params:                 params.CypressChainConfig,
-				GenesisBlockIdentifier: klaytn.MainnetGenesisBlockIdentifier,
+				GenesisBlockIdentifier: kaia.MainnetGenesisBlockIdentifier,
 				Port:                   1000,
-				KlaytnNodeURL:          DefaultKENURL,
-				KlaytnNodeArguments:    klaytn.MainnetKlaytnNodeArguments,
+				NodeURL:                DefaultKENURL,
+				NodeArguments:          kaia.MainnetNodeArguments,
 				SkipAdmin:              false,
 			},
 		},
@@ -80,15 +82,15 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    klaytn.MainnetNetwork,
-					Blockchain: klaytn.Blockchain,
+					Network:    kaia.MainnetNetwork,
+					Blockchain: kaia.Blockchain,
 				},
 				Params:                 params.CypressChainConfig,
-				GenesisBlockIdentifier: klaytn.MainnetGenesisBlockIdentifier,
+				GenesisBlockIdentifier: kaia.MainnetGenesisBlockIdentifier,
 				Port:                   1000,
-				KlaytnNodeURL:          "http://blah",
+				NodeURL:                "http://blah",
 				RemoteNode:             true,
-				KlaytnNodeArguments:    klaytn.MainnetKlaytnNodeArguments,
+				NodeArguments:          kaia.MainnetNodeArguments,
 				SkipAdmin:              true,
 			},
 		},
@@ -99,14 +101,14 @@ func TestLoadConfiguration(t *testing.T) {
 			cfg: &Configuration{
 				Mode: Online,
 				Network: &types.NetworkIdentifier{
-					Network:    klaytn.TestnetNetwork,
-					Blockchain: klaytn.Blockchain,
+					Network:    kaia.TestnetNetwork,
+					Blockchain: kaia.Blockchain,
 				},
 				Params:                 params.BaobabChainConfig,
-				GenesisBlockIdentifier: klaytn.TestnetGenesisBlockIdentifier,
+				GenesisBlockIdentifier: kaia.TestnetGenesisBlockIdentifier,
 				Port:                   1000,
-				KlaytnNodeURL:          DefaultKENURL,
-				KlaytnNodeArguments:    klaytn.TestnetKlaytnNodeArguments,
+				NodeURL:                DefaultKENURL,
+				NodeArguments:          kaia.TestnetNodeArguments,
 			},
 		},
 		"invalid mode": {

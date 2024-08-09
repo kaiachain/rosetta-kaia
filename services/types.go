@@ -14,6 +14,8 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package services
 
@@ -22,12 +24,10 @@ import (
 	"encoding/json"
 	"math/big"
 
+	klayTypes "github.com/klaytn/klaytn/blockchain/types"
 	"github.com/klaytn/klaytn/common"
-
 	"github.com/klaytn/klaytn/common/hexutil"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
-
-	klayTypes "github.com/klaytn/klaytn/blockchain/types"
 )
 
 // Client is used by the services to get block

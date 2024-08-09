@@ -19,7 +19,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/klaytn/rosetta-klaytn/klaytn"
+	"github.com/kaiachain/rosetta-kaia/kaia"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
 	"github.com/stretchr/testify/assert"
 )
@@ -43,7 +43,7 @@ func TestBlock(t *testing.T) {
 	assert.Equal(t, ret.Block.BlockIdentifier.Index, *testBlockNumber)
 	assert.True(t, len(ret.Block.Transactions) >= 2)
 	assert.Equal(t, ret.Block.Transactions[0].TransactionIdentifier.Hash, testBlockHash)
-	assert.Equal(t, ret.Block.Transactions[0].Operations[0].Type, klaytn.BlockRewardOpType)
+	assert.Equal(t, ret.Block.Transactions[0].Operations[0].Type, kaia.BlockRewardOpType)
 	found := false
 	for i := 1; i < len(ret.Block.Transactions); i++ {
 		if ret.Block.Transactions[i].TransactionIdentifier.Hash != testTxHash {
@@ -51,12 +51,12 @@ func TestBlock(t *testing.T) {
 		}
 		assert.Equal(t, ret.Block.Transactions[i].TransactionIdentifier.Hash, testTxHash)
 		assert.Equal(t, 4, len(ret.Block.Transactions[i].Operations))
-		assert.Equal(t, klaytn.FeeOpType, ret.Block.Transactions[i].Operations[0].Type)
-		assert.Equal(t, klaytn.FeeOpType, ret.Block.Transactions[i].Operations[1].Type)
+		assert.Equal(t, kaia.FeeOpType, ret.Block.Transactions[i].Operations[0].Type)
+		assert.Equal(t, kaia.FeeOpType, ret.Block.Transactions[i].Operations[1].Type)
 		assert.Equal(t, int64(0), ret.Block.Transactions[i].Operations[0].OperationIdentifier.Index)
 		assert.Equal(t, int64(1), ret.Block.Transactions[i].Operations[1].OperationIdentifier.Index)
-		assert.Equal(t, klaytn.CallOpType, ret.Block.Transactions[i].Operations[2].Type)
-		assert.Equal(t, klaytn.CallOpType, ret.Block.Transactions[i].Operations[3].Type)
+		assert.Equal(t, kaia.CallOpType, ret.Block.Transactions[i].Operations[2].Type)
+		assert.Equal(t, kaia.CallOpType, ret.Block.Transactions[i].Operations[3].Type)
 		assert.Equal(t, int64(2), ret.Block.Transactions[i].Operations[2].OperationIdentifier.Index)
 		assert.Equal(t, int64(3), ret.Block.Transactions[i].Operations[3].OperationIdentifier.Index)
 		assert.Equal(t, 1, len(ret.Block.Transactions[i].Operations[3].RelatedOperations))
@@ -109,8 +109,8 @@ func TestBlockTransaction(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, testTxHash, ret.Transaction.TransactionIdentifier.Hash)
 	assert.Equal(t, 4, len(ret.Transaction.Operations))
-	assert.Equal(t, klaytn.FeeOpType, ret.Transaction.Operations[0].Type)
-	assert.Equal(t, klaytn.FeeOpType, ret.Transaction.Operations[1].Type)
+	assert.Equal(t, kaia.FeeOpType, ret.Transaction.Operations[0].Type)
+	assert.Equal(t, kaia.FeeOpType, ret.Transaction.Operations[1].Type)
 	assert.Equal(t, int64(0), ret.Transaction.Operations[0].OperationIdentifier.Index)
 	assert.Equal(t, int64(1), ret.Transaction.Operations[1].OperationIdentifier.Index)
 	assert.Equal(t, int64(2), ret.Transaction.Operations[2].OperationIdentifier.Index)

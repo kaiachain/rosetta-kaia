@@ -26,7 +26,7 @@ import (
 )
 
 var (
-	clientError = "klaytn client error"
+	clientError = "client error"
 )
 
 // Test /call with klay_call

@@ -18,9 +18,10 @@ import (
 	"context"
 	"testing"
 
-	"github.com/klaytn/rosetta-klaytn/configuration"
-	"github.com/klaytn/rosetta-klaytn/klaytn"
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	"github.com/kaiachain/rosetta-kaia/kaia"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -36,8 +37,8 @@ func TestNetworkList(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.Equal(t, len(res.NetworkIdentifiers), 1)
-	assert.Equal(t, res.NetworkIdentifiers[0].Blockchain, klaytn.Blockchain)
-	assert.Equal(t, res.NetworkIdentifiers[0].Network, klaytn.LocalNetwork)
+	assert.Equal(t, res.NetworkIdentifiers[0].Blockchain, kaia.Blockchain)
+	assert.Equal(t, res.NetworkIdentifiers[0].Network, kaia.LocalNetwork)
 }
 
 // Test /network/options
@@ -53,7 +54,7 @@ func TestNetworkOptions(t *testing.T) {
 	assert.Nil(t, err)
 
 	assert.Equal(t, res.Version.RosettaVersion, types.RosettaAPIVersion)
-	assert.Equal(t, res.Version.NodeVersion, klaytn.NodeVersion)
+	assert.Equal(t, res.Version.NodeVersion, kaia.NodeVersion)
 	assert.Equal(t, res.Version.MiddlewareVersion, types.String(configuration.MiddlewareVersion))
 	assert.NotNil(t, res.Allow.Errors)
 	assert.NotNil(t, res.Allow.OperationTypes)
@@ -74,10 +75,10 @@ func TestNetworkStatus(t *testing.T) {
 	res, err := networkAPIService.NetworkStatus(ctx, request)
 	assert.Nil(t, err)
 
-	assert.True(t, res.CurrentBlockIdentifier.Index > klaytn.GenesisBlockIndex)
+	assert.True(t, res.CurrentBlockIdentifier.Index > kaia.GenesisBlockIndex)
 	assert.NotNil(t, res.CurrentBlockIdentifier.Hash)
 	assert.NotNil(t, res.CurrentBlockTimestamp)
-	assert.Equal(t, res.GenesisBlockIdentifier.Index, klaytn.GenesisBlockIndex)
-	assert.Equal(t, res.GenesisBlockIdentifier.Hash, klaytn.LocalGenesisBlockIdentifier.Hash)
+	assert.Equal(t, res.GenesisBlockIdentifier.Index, kaia.GenesisBlockIndex)
+	assert.Equal(t, res.GenesisBlockIdentifier.Hash, kaia.LocalGenesisBlockIdentifier.Hash)
 	assert.NotNil(t, res.Peers)
 }

@@ -14,13 +14,15 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development
 
 package services
 
 import (
 	"context"
 
-	"github.com/klaytn/rosetta-klaytn/configuration"
+	"github.com/kaiachain/rosetta-kaia/configuration"
 
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
 )
@@ -57,7 +59,7 @@ func (s *AccountAPIService) AccountBalance(
 		request.BlockIdentifier,
 	)
 	if err != nil {
-		return nil, wrapErr(ErrKlaytnClient, err)
+		return nil, wrapErr(ErrClient, err)
 	}
 
 	return balanceResponse, nil

@@ -14,14 +14,15 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package services
 
 import (
 	"net/http"
 
-	"github.com/klaytn/rosetta-klaytn/configuration"
-
+	"github.com/kaiachain/rosetta-kaia/configuration"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/asserter"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/server"
 )

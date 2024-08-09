@@ -14,8 +14,10 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development
 
-package klaytn
+package kaia
 
 import (
 	"context"
@@ -28,11 +30,11 @@ import (
 )
 
 const (
-	// NodeVersion is the version of klaytn we are using.
+	// NodeVersion is the version of kaia we are using.
 	NodeVersion = "1.8.4"
 
-	// Blockchain is Klaytn.
-	Blockchain string = "Klaytn"
+	// Blockchain is Kaia.
+	Blockchain string = "Kaia"
 
 	// MainnetNetwork is the value of the network
 	// in MainnetNetworkIdentifier (which is Cypress).
@@ -88,11 +90,11 @@ const (
 	DestructOpType = "DESTRUCT"
 
 	// SuccessStatus is the status of any
-	// Klaytn operation considered successful.
+	// Kaia operation considered successful.
 	SuccessStatus = "SUCCESS"
 
 	// FailureStatus is the status of any
-	// Klaytn operation considered unsuccessful.
+	// Kaia operation considered unsuccessful.
 	FailureStatus = "FAILURE"
 
 	// HistoricalBalanceSupported is whether
@@ -107,23 +109,22 @@ const (
 	// of a transfer.
 	TransferGasLimit = int64(21000) //nolint:gomnd
 
-	// KlaytnNodeArguments are the arguments to start a klaytn node instance.
-	KlaytnNodeArguments = `--conf /app/klaytn/ken.yaml --gcmode archive --rpc --rpcapi debug,admin,txpool,klay,governance --rpcport 8551`
+	// NodeArguments are the arguments to start a kaia node instance.
+	NodeArguments = `--conf /app/kaia/ken.yaml --gcmode archive --rpc --rpcapi debug,admin,txpool,klay,governance --rpcport 8551`
 
-	// IncludeMempoolCoins does not apply to rosetta-klaytn as it is not UTXO-based.
+	// IncludeMempoolCoins does not apply to rosetta-kaia as it is not UTXO-based.
 	IncludeMempoolCoins = false
 )
 
 var (
-	// MainnetKlaytnNodeArguments are the arguments to start a Mainnet(Cypress) Klaytn node
-	// instance.
-	MainnetKlaytnNodeArguments = fmt.Sprintf("%s --cypress", KlaytnNodeArguments)
+	// MainnetNodeArguments are the arguments to start a Mainnet node
+	MainnetNodeArguments = fmt.Sprintf("%s --cypress", NodeArguments)
 
-	// TestnetKlaytnNodeArguments are the arguments to start a Testnet(Baobab) Klaytn node instance.
-	TestnetKlaytnNodeArguments = fmt.Sprintf("%s --baobab", KlaytnNodeArguments)
+	// TestnetNodeArguments are the arguments to start a Testnet node
+	TestnetNodeArguments = fmt.Sprintf("%s --baobab", NodeArguments)
 
 	// MainnetGenesisBlockIdentifier is the *types.BlockIdentifier
-	// of the cypress genesis block.
+	// of the mainnet genesis block.
 	MainnetGenesisBlockIdentifier = &types.BlockIdentifier{
 		Hash:  params.CypressGenesisHash.Hex(),
 		Index: GenesisBlockIndex,
@@ -144,7 +145,7 @@ var (
 	}
 
 	// Currency is the *types.Currency for all
-	// Klaytn networks.
+	// Kaia networks.
 	Currency = &types.Currency{
 		Symbol:   Symbol,
 		Decimals: Decimals,
@@ -185,14 +186,14 @@ var (
 	}
 )
 
-// JSONRPC is the interface for accessing Klaytn's JSON RPC endpoint.
+// JSONRPC is the interface for accessing Kaia's JSON RPC endpoint.
 type JSONRPC interface {
 	CallContext(ctx context.Context, result interface{}, method string, args ...interface{}) error
 	BatchCallContext(ctx context.Context, b []rpc.BatchElem) error
 	Close()
 }
 
-// GraphQL is the interface for accessing Klaytn's GraphQL endpoint.
+// GraphQL is the interface for accessing Kaia's GraphQL endpoint.
 type GraphQL interface {
 	Query(ctx context.Context, input string) (string, error)
 }

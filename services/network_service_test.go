@@ -14,6 +14,8 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package services
 
@@ -21,11 +23,9 @@ import (
 	"context"
 	"testing"
 
-	"github.com/klaytn/rosetta-klaytn/klaytn"
-
-	"github.com/klaytn/rosetta-klaytn/configuration"
-	mocks "github.com/klaytn/rosetta-klaytn/mocks/services"
-
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	"github.com/kaiachain/rosetta-kaia/kaia"
+	mocks "github.com/kaiachain/rosetta-kaia/mocks/services"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
 	"github.com/stretchr/testify/assert"
 )
@@ -41,17 +41,17 @@ var (
 			MiddlewareVersion: &middlewareVersion,
 		},
 		Allow: &types.Allow{
-			OperationStatuses:       klaytn.OperationStatuses,
-			OperationTypes:          klaytn.OperationTypes,
+			OperationStatuses:       kaia.OperationStatuses,
+			OperationTypes:          kaia.OperationTypes,
 			Errors:                  Errors,
-			HistoricalBalanceLookup: klaytn.HistoricalBalanceSupported,
-			CallMethods:             klaytn.CallMethods,
+			HistoricalBalanceLookup: kaia.HistoricalBalanceSupported,
+			CallMethods:             kaia.CallMethods,
 		},
 	}
 
 	networkIdentifier = &types.NetworkIdentifier{
-		Network:    klaytn.MainnetNetwork,
-		Blockchain: klaytn.Blockchain,
+		Network:    kaia.MainnetNetwork,
+		Blockchain: kaia.Blockchain,
 	}
 )
 
@@ -86,7 +86,7 @@ func TestNetworkEndpoints_Online(t *testing.T) {
 	cfg := &configuration.Configuration{
 		Mode:                   configuration.Online,
 		Network:                networkIdentifier,
-		GenesisBlockIdentifier: klaytn.MainnetGenesisBlockIdentifier,
+		GenesisBlockIdentifier: kaia.MainnetGenesisBlockIdentifier,
 	}
 	mockClient := &mocks.Client{}
 	servicer := NewNetworkAPIService(cfg, mockClient)
@@ -128,7 +128,7 @@ func TestNetworkEndpoints_Online(t *testing.T) {
 	networkStatus, err := servicer.NetworkStatus(ctx, nil)
 	assert.Nil(t, err)
 	assert.Equal(t, &types.NetworkStatusResponse{
-		GenesisBlockIdentifier: klaytn.MainnetGenesisBlockIdentifier,
+		GenesisBlockIdentifier: kaia.MainnetGenesisBlockIdentifier,
 		CurrentBlockIdentifier: currentBlock,
 		CurrentBlockTimestamp:  currentTime,
 		Peers:                  peers,

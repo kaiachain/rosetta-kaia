@@ -1,21 +1,14 @@
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
-
-# NO LONGER MAINTAINED
-
-Since the launch of Kaia Blockchain this repository has been parked in favour of the new open-source projects in [Kaia's Github](https://github.com/kaiachain). Contributors have now moved there continuing with massive open-source contributions to our blockchain ecosystem. A big thank you to everyone who has contributed to this repository. For more information about Klaytn's chain merge with Finschia blockchain please refer to the launching of Kaia blockchain - [kaia.io](http://kaia.io/).
-
-
 <p align="center">
   <a href="https://www.rosetta-api.org">
     <img width="90%" alt="Rosetta" src="https://www.rosetta-api.org/img/rosetta_header.png">
   </a>
 </p>
 <h3 align="center">
-   Rosetta Klaytn
+   Rosetta Kaia
 </h3>
 
 ## Overview
-`rosetta-klaytn` provides an implementation of the Rosetta API for Klaytn in Golang, based off the [rosetta-ethereum](https://github.com/coinbase/rosetta-ethereum) reference implementation provided by Coinbase. If you haven't heard of the Rosetta API, you can find more information [here](https://rosetta-api.org).
+`rosetta-kaia` provides an implementation of the Rosetta API for Kaia in Golang, based off the [rosetta-ethereum](https://github.com/coinbase/rosetta-ethereum) reference implementation provided by Coinbase. If you haven't heard of the Rosetta API, you can find more information [here](https://rosetta-api.org).
 The project started with a fork of [23561f903bc93d4fa97bebc1fbbe4c7e5b374e5e commit](https://github.com/coinbase/rosetta-ethereum/commit/23561f903bc93d4fa97bebc1fbbe4c7e5b374e5e), a commit on February 25, 2022.
 
 ## Features
@@ -25,13 +18,13 @@ The project started with a fork of [23561f903bc93d4fa97bebc1fbbe4c7e5b374e5e com
 * Idempotent access to all transaction traces and receipts
 
 ## System Requirements
-### For rosetta-klaytn
-`rosetta-klaytn` has been tested on an [AWS c5.2xlarge instance](https://aws.amazon.com/ec2/instance-types/c5).
+### For rosetta-kaia
+`rosetta-kaia` has been tested on an [AWS c5.2xlarge instance](https://aws.amazon.com/ec2/instance-types/c5).
 This instance type has 8 vCPU and 16 GB of RAM. If you use a computer with less than 16 GB of RAM,
-it is possible that `rosetta-klaytn` will exit with an OOM error.
+it is possible that `rosetta-kaia` will exit with an OOM error.
 
 #### Recommended OS Settings
-To increase the load `rosetta-klaytn` can handle, it is recommended to tune your OS
+To increase the load `rosetta-kaia` can handle, it is recommended to tune your OS
 settings to allow for more connections. On a linux-based OS, you can run the following
 commands ([source](http://www.tweaked.io/guide/kernel)):
 ```text
@@ -42,18 +35,18 @@ sysctl -w net.ipv4.tcp_max_syn_backlog=10000
 sysctl -w net.core.somaxconn=10000
 sysctl -p (when done)
 ```
-_We have not tested `rosetta-klaytn` with `net.ipv4.tcp_tw_recycle` and do not recommend
+_We have not tested `rosetta-kaia` with `net.ipv4.tcp_tw_recycle` and do not recommend
 enabling it._
 
 You should also modify your open file settings to `100000`. This can be done on a linux-based OS
 with the command: `ulimit -n 100000`.
 
-### For Klaytn Node
-For Klaytn Node, you should operate an [EN(Endpoint Node)](https://docs.klaytn.foundation/node/endpoint-node) with `arcive` mode.
-And also you can see the system requirements for [Endpoint Node](https://docs.klaytn.foundation/node/endpoint-node/system-requirements) in here.
+### For Kaia Node
+For Kaia Node, you should operate an [EN(Endpoint Node)](https://docs.kaia.io/node/endpoint-node) with `archive` mode.
+And also you can see the system requirements for [Endpoint Node](https://docs.kaia.io/nodes/endpoint-node/system-requirements) in here.
 
 #### Recommended `kend.conf` configuration
-To serve rosetta-klaytn API, EN should enable rpc api like `RPC_ENABLE=1` and serve `klay`, `debug`, `txpool`, `governance` and `admin`(admin rpc api is optional) rpc apis.
+To serve rosetta-kaia API, EN should enable rpc api like `RPC_ENABLE=1` and serve `klay`, `debug`, `txpool`, `governance` and `admin`(admin rpc api is optional) rpc apis.
 
 ```text
 # rpc options setting
@@ -80,7 +73,7 @@ all Rosetta implementations must be deployable via Docker and support running vi
 DOCKER [HERE](https://www.docker.com/get-started).**
 
 ### Install
-Running the following commands will create a Docker image called `rosetta-klaytn:latest`.
+Running the following commands will create a Docker image called `rosetta-kaia:latest`.
 
 #### From GitHub
 To download the pre-built Docker image from the latest release, run:
@@ -88,7 +81,7 @@ To download the pre-built Docker image from the latest release, run:
 curl -sSfL https://raw.githubusercontent.com/klaytn/rosetta-klaytn/master/install.sh | sh -s
 ```
 
-_Do not try to install rosetta-klaytn using GitHub Packages!_
+_Do not try to install rosetta-kaia using GitHub Packages!_
 
 
 #### From Source
@@ -100,66 +93,66 @@ make build-local
 ### Run
 Running the following commands will start a Docker container in
 [detached mode](https://docs.docker.com/engine/reference/run/#detached--d) with
-a data directory at `<working directory>/klaytn-data` and the Rosetta API accessible
+a data directory at `<working directory>/kaia-data` and the Rosetta API accessible
 at port `8080`.
 
 #### Configuration Environment Variables
 * `MODE` (required) - Determines if Rosetta can make outbound connections. Options: `ONLINE` or `OFFLINE`.
-* `NETWORK` (required) - Klaytn network to launch and/or communicate with. Options: `MAINNET` or `TESTNET`.
+* `NETWORK` (required) - Kaia network to launch and/or communicate with. Options: `MAINNET` or `TESTNET`.
 * `PORT`(required) - Which port to use for Rosetta.
-* `KEN` (optional) - Point to a remote `klaytn` EN node instead of initializing one
+* `KEN` (optional) - Point to a remote `kaia` EN node instead of initializing one
 * `SKIP_ADMIN` (optional, default: `FALSE`) - Instruct Rosetta to not use the `ken` `admin` RPC calls. This is typically disabled by hosted blockchain node services.
 
 #### Mainnet:Online
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/klaytn-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/kaia-data:/data" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 ```
 _If you cloned the repository, you can run `make run-mainnet-online`._
 
 #### Mainnet:Online (Remote)
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "KEN=<NODE URL>" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=MAINNET" -e "PORT=8080" -e "KEN=<NODE URL>" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 ```
 _If you cloned the repository, you can run `make run-mainnet-remote ken=<NODE URL>`._
 
 #### Mainnet:Offline
 ```text
-docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=MAINNET" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 ```
 _If you cloned the repository, you can run `make run-mainnet-offline`._
 
 #### Testnet:Online
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/klaytn-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -v "$(pwd)/kaia-data:/data" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 ```
 _If you cloned the repository, you can run `make run-testnet-online`._
 
 #### Testnet:Online (Remote)
 ```text
-docker run -d --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "KEN=<NODE URL>" -p 8080:8080 -p 30303:30303 rosetta-klaytn:latest
+docker run -d --rm --ulimit "nofile=100000:100000" -e "MODE=ONLINE" -e "NETWORK=TESTNET" -e "PORT=8080" -e "KEN=<NODE URL>" -p 8080:8080 -p 30303:30303 rosetta-kaia:latest
 ```
 _If you cloned the repository, you can run `make run-testnet-remote ken=<NODE URL>`._
 
 #### Testnet:Offline
 ```text
-docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+docker run -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 ```
 _If you cloned the repository, you can run `make run-testnet-offline`._
 
 If you are using MacOS M1, you might need to add `--platform linux/amd64` flag like below when you run docker container.
 ```shell
-docker run --platform linux/amd64 -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-klaytn:latest
+docker run --platform linux/amd64 -d --rm -e "MODE=OFFLINE" -e "NETWORK=TESTNET" -e "PORT=8081" -p 8081:8081 rosetta-kaia:latest
 ```
 
 ## Testing with rosetta-cli
-To validate `rosetta-klaytn`, [install `rosetta-cli`](https://github.com/coinbase/rosetta-cli#install)
+To validate `rosetta-kaia`, [install `rosetta-cli`](https://github.com/coinbase/rosetta-cli#install)
 and run one of the following commands:
-* `rosetta-cli check:data --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates that the Data API implementation is correct using the Klaytn `testnet` node. It also ensures that the implementation does not miss any balance-changing operations.
+* `rosetta-cli check:data --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates that the Data API implementation is correct using the Kaia `testnet` node. It also ensures that the implementation does not miss any balance-changing operations.
 * `rosetta-cli check:construction --configuration-file rosetta-cli-conf/testnet/config.json` - This command validates the Construction API implementation. It also verifies transaction construction, signing, and submissions to the `testnet` network.
-* `rosetta-cli check:data --configuration-file rosetta-cli-conf/mainnet/config.json` - This command validates that the Data API implementation is correct using the Klaytn `mainnet` node. It also ensures that the implementation does not miss any balance-changing operations.
+* `rosetta-cli check:data --configuration-file rosetta-cli-conf/mainnet/config.json` - This command validates that the Data API implementation is correct using the Kaia `mainnet` node. It also ensures that the implementation does not miss any balance-changing operations.
 
 ## Issues
-Interested in helping fix issues in this repository? You can find to-dos in the [Issues](https://github.com/klaytn/rosetta-klaytn/issues) section. Be sure to reach out on our [community](https://community.rosetta-api.org) before you tackle anything on this list.
+Interested in helping fix issues in this repository? You can find to-dos in the [Issues](https://github.com/kaiachain/rosetta-kaia/issues) section. Be sure to reach out on our [community](https://community.rosetta-api.org) before you tackle anything on this list.
 
 ## Development
 * `make deps` to install dependencies
@@ -199,8 +192,6 @@ curl -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"debu
 Create a response object to be returned based on the above result in the `block_response_{block number}.json` file.
 
 You can refer to `block_response_1078.json` file.
-
-- 
 
 ## License
 This project is available open source under the terms of the [Apache 2.0 License](https://opensource.org/licenses/Apache-2.0).

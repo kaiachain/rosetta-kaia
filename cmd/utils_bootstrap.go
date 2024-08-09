@@ -14,11 +14,14 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package cmd
 
 import (
-	"github.com/klaytn/rosetta-klaytn/klaytn"
+	"github.com/kaiachain/rosetta-kaia/kaia"
+
 	"github.com/spf13/cobra"
 )
 
@@ -29,7 +32,7 @@ var (
 		Long: `For rosetta-cli testing, it can be useful to generate
 a bootstrap balances file for balances that were created
 at genesis. This command creates such a file given the
-path of an Klaytn genesis file.
+path of an Kaia genesis file.
 
 When calling this command, you must provide 2 arguments:
 [1] the location of the genesis file
@@ -40,5 +43,5 @@ When calling this command, you must provide 2 arguments:
 )
 
 func runUtilsBootstrapCmd(cmd *cobra.Command, args []string) error {
-	return klaytn.GenerateBootstrapFile(args[0], args[1])
+	return kaia.GenerateBootstrapFile(args[0], args[1])
 }
