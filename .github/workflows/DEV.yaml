@@ -1,4 +1,4 @@
-name: rosetta-klaytn DEV workflow
+name: rosetta-kaia DEV workflow
 on:
   pull_request:
     branches:
