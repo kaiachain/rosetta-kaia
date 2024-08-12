@@ -14,36 +14,26 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development
 
-package klaytn
+package kaia
 
 import (
-	"log"
-
-	"github.com/klaytn/klaytn/common"
+	"github.com/klaytn/klaytn/node/cn/tracers"
 )
 
-// ChecksumAddress ensures an Klaytn hex address
-// is in Checksum Format. If the address cannot be converted,
-// it returns !ok.
-func ChecksumAddress(address string) (string, bool) {
-	if isHexAddress := common.IsHexAddress(address); !isHexAddress {
-		return "", false
+// convert raw eth data from client to rosetta
+
+var (
+	tracerTimeout = "120s"
+)
+
+func loadTraceConfig() *tracers.TraceConfig {
+	// Use fastCallTracer instead of call_tracer.js
+	fct := "fastCallTracer"
+	return &tracers.TraceConfig{
+		Timeout: &tracerTimeout,
+		Tracer:  &fct,
 	}
-
-	addr := common.HexToAddress(address)
-
-	return addr.Hex(), true
-}
-
-// MustChecksum ensures an address can be converted
-// into a valid checksum. If it does not, the program
-// will exit.
-func MustChecksum(address string) string {
-	addr, ok := ChecksumAddress(address)
-	if !ok {
-		log.Fatalf("invalid address %s", address)
-	}
-
-	return addr
 }

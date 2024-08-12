@@ -14,6 +14,8 @@
 #
 # Modifications Copyright © 2022 Klaytn
 # Modified and improved for the Klaytn development
+# Modifications Copyright 2024 Rosetta-kaia developers
+# Modified and improved for the Kaia development
 
 version: 2.1
 executors:
@@ -21,7 +23,7 @@ executors:
     docker:
       - image: cimg/go:1.18.4
         user: root # go directory is owned by root
-    working_directory: /go/src/github.com/klaytn/rosetta-klaytn
+    working_directory: /go/src/github.com/kaiachain/rosetta-kaia
     environment:
       - GO111MODULE: "on"
 

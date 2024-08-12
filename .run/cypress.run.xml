@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="cypress" type="GoApplicationRunConfiguration" factoryName="Go Application">
-    <module name="rosetta-klaytn" />
+    <module name="rosetta-kaia" />
     <working_directory value="$PROJECT_DIR$" />
     <parameters value="run" />
     <envs>
@@ -10,7 +10,7 @@
       <env name="KEN" value="http://localhost:8551" />
     </envs>
     <kind value="PACKAGE" />
-    <package value="github.com/klaytn/rosetta-klaytn" />
+    <package value="github.com/kaiachain/rosetta-kaia" />
     <directory value="$PROJECT_DIR$" />
     <filePath value="$PROJECT_DIR$" />
     <method v="2" />

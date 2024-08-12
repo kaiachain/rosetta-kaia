@@ -3,7 +3,7 @@ If you use GoLand, you should move .run directory to rosetta-cli/.idea/runConfig
 For testing testnet in automated way, we should fill account infos for
 `construction.prefunded_accounts` field info at `config.json` file.
 
-We need at least 2 accounts which have enough KLAY to test transfer scenario.
+We need at least 2 accounts which have enough KAIA to test transfer scenario.
 
 Tip for testing.
 - check:data

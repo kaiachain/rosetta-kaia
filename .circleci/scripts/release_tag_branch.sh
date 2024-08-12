@@ -5,7 +5,7 @@ VERSION=v$(awk '/"version/ {gsub("\"",""); print $2}' package.json | tr -d ',')
 
 echo "Tagging major $VERSION"
 git config --global user.email "team.devops@groundx.xyz"
-git config --global user.name "circleci-gx"
+git config --global user.name "circleci-kaia"
 git tag -a $VERSION -m "$CIRCLE_STAGE"
 git push origin $VERSION
 

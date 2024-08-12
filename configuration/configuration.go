@@ -14,6 +14,8 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development
 
 package configuration
 
@@ -24,9 +26,9 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/kaiachain/rosetta-kaia/kaia"
 	"github.com/klaytn/klaytn/common"
 	"github.com/klaytn/klaytn/params"
-	"github.com/klaytn/rosetta-klaytn/klaytn"
 
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
 )
@@ -71,8 +73,8 @@ const (
 	PortEnv = "PORT"
 
 	// KENEnv is an optional environment variable
-	// used to connect rosetta-klaytn to an already
-	// running klaytn client node.
+	// used to connect rosetta-kaia to an already
+	// running kaia client node.
 	KENEnv = "KEN"
 
 	// DefaultKENURL is the default URL for
@@ -85,7 +87,7 @@ const (
 	// by hosted node services. When not set, defaults to false.
 	SkipAdminEnv = "SKIP_ADMIN"
 
-	// MiddlewareVersion is the version of rosetta-klaytn.
+	// MiddlewareVersion is the version of rosetta-kaia.
 	MiddlewareVersion = "1.0.7"
 )
 
@@ -94,10 +96,10 @@ type Configuration struct {
 	Mode                   Mode
 	Network                *types.NetworkIdentifier
 	GenesisBlockIdentifier *types.BlockIdentifier
-	KlaytnNodeURL          string
+	NodeURL                string
 	RemoteNode             bool
 	Port                   int
-	KlaytnNodeArguments    string
+	NodeArguments          string
 	SkipAdmin              bool
 
 	// Block Reward Data
@@ -125,26 +127,26 @@ func LoadConfiguration() (*Configuration, error) {
 	switch networkValue {
 	case Mainnet:
 		config.Network = &types.NetworkIdentifier{
-			Blockchain: klaytn.Blockchain,
-			Network:    klaytn.MainnetNetwork,
+			Blockchain: kaia.Blockchain,
+			Network:    kaia.MainnetNetwork,
 		}
-		config.GenesisBlockIdentifier = klaytn.MainnetGenesisBlockIdentifier
+		config.GenesisBlockIdentifier = kaia.MainnetGenesisBlockIdentifier
 		config.Params = params.CypressChainConfig
-		config.KlaytnNodeArguments = klaytn.MainnetKlaytnNodeArguments
+		config.NodeArguments = kaia.MainnetNodeArguments
 	case Testnet:
 		config.Network = &types.NetworkIdentifier{
-			Blockchain: klaytn.Blockchain,
-			Network:    klaytn.TestnetNetwork,
+			Blockchain: kaia.Blockchain,
+			Network:    kaia.TestnetNetwork,
 		}
-		config.GenesisBlockIdentifier = klaytn.TestnetGenesisBlockIdentifier
+		config.GenesisBlockIdentifier = kaia.TestnetGenesisBlockIdentifier
 		config.Params = params.BaobabChainConfig
-		config.KlaytnNodeArguments = klaytn.TestnetKlaytnNodeArguments
+		config.NodeArguments = kaia.TestnetNodeArguments
 	case Local:
 		config.Network = &types.NetworkIdentifier{
-			Blockchain: klaytn.Blockchain,
-			Network:    klaytn.LocalNetwork,
+			Blockchain: kaia.Blockchain,
+			Network:    kaia.LocalNetwork,
 		}
-		config.GenesisBlockIdentifier = klaytn.LocalGenesisBlockIdentifier
+		config.GenesisBlockIdentifier = kaia.LocalGenesisBlockIdentifier
 		mintingAmount, _ := new(big.Int).SetString("9600000000000000000", 10) // nolint
 		config.Params = &params.ChainConfig{
 			ChainID:                  big.NewInt(int64(940625)), // nolint
@@ -178,11 +180,11 @@ func LoadConfiguration() (*Configuration, error) {
 		return nil, fmt.Errorf("%s is not a valid network", networkValue)
 	}
 
-	config.KlaytnNodeURL = DefaultKENURL
-	envKlaytnNodeURL := os.Getenv(KENEnv)
-	if len(envKlaytnNodeURL) > 0 {
+	config.NodeURL = DefaultKENURL
+	envNodeURL := os.Getenv(KENEnv)
+	if len(envNodeURL) > 0 {
 		config.RemoteNode = true
-		config.KlaytnNodeURL = envKlaytnNodeURL
+		config.NodeURL = envNodeURL
 	}
 
 	config.SkipAdmin = false

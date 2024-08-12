@@ -1,6 +1,6 @@
 {
   "network": {
-    "blockchain": "Klaytn",
+    "blockchain": "Kaia",
     "network": "Local"
   },
   "online_url": "http://localhost:8080",
@@ -20,7 +20,7 @@
     "offline_url": "http://localhost:10101",
     "stale_depth": 3,
     "broadcast_limit": 5,
-    "constructor_dsl_file": "klaytn.ros",
+    "constructor_dsl_file": "kaia.ros",
     "prefunded_accounts": [
       {
         "privkey": "4367aeca3984c23f4d6b1b35a0edaa195d7847536f99a50a0bf178330a0ce075",

@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-Thank you for your interest in contributing to rosetta-klaytn. As an open source project, rosetta-klaytn is always open to the developer community and we welcome your contribution. Please read the guideline below and follow it in all interactions with the project.
+Thank you for your interest in contributing to rosetta-kaia. As an open source project, rosetta-kaia is always open to the developer community and we welcome your contribution. Please read the guideline below and follow it in all interactions with the project.
 
 ## How to Contribute
 
@@ -22,22 +22,23 @@ There are various ways to contribute and participate. Please read the guidelines
 
 ### Issues and Bugs
 
-If you find a bug or other issues in rosetta-klaytn, please [submit an issue](https://github.com/klaytn/rosetta-klaytn/issues). Before submitting an issue, please invest some extra time to figure out that:
+If you find a bug or other issues in rosetta-kaia, please [submit an issue](https://github.com/kaiachain/rosetta-kaia/issues). 
 
-- The issue is not a duplicate issue.
-- The issue has not been fixed in the latest release of rosetta-klaytn.
-  Please do not use the issue tracker for personal support requests. Use developer@klaytn.com for the personal support requests.
+Before submitting an issue, please invest some extra time to figure out that:
+
+- The issue should not a duplicate of other issue. If needed, please reopen the existing issue.
+- The issue is an issue which has not been fixed in the latest release of rosetta-kaia.
 
 When you report a bug, please make sure that your report has the following information.
 - Steps to reproduce the issue.
 - A clear and complete description of the issue.
 - Code and/or screen captures are highly recommended.
 
-After confirming your report meets the above criteria, [submit the issue](https://github.com/klaytn/rosetta-klaytn/issues). Please use [labels](#usage-of-labels) to categorize your issue.
+After confirming your report meets the above criteria, [submit the issue](https://github.com/kaiachain/rosetta-kaia/issues). Please use [labels](#usage-of-labels) to categorize your issue.
 
 ### Feature Requests
 
-You can also use the [issue tracker](https://github.com/klaytn/rosetta-klaytn/issues) to request a new feature or enhancement. Note that any code contribution without an issue link will not be accepted. Please submit an issue explaining your proposal first so that Klaytn community can fully understand and discuss the idea. Please use [labels](#usage-of-labels) for your feature request as well.
+You can also use the [issue tracker](https://github.com/kaiachain/rosetta-kaia/issues) to request a new feature or enhancement. Note that any code contribution without an issue link will not be accepted. Please submit an issue explaining your proposal first so that Kaia community can fully understand and discuss the idea. Please use [labels](#usage-of-labels) for your feature request as well.
 
 #### Usage of Labels
 
@@ -69,7 +70,7 @@ Status of closed issues:
 
 Please follow the coding style and quality requirements to satisfy the product standards. You must follow the coding style as best as you can when submitting code. Take note of naming conventions, separation of concerns, and formatting rules.
 
-The go implementation of rosetta-klaytn uses [golangci-lint](https://github.com/golangci/golangci-lint) and [gofmt](https://pkg.go.dev/cmd/gofmt) to format the source code.
+The go implementation of rosetta-kaia uses [golangci-lint](https://github.com/golangci/golangci-lint) and [gofmt](https://pkg.go.dev/cmd/gofmt) to format the source code.
 Before you submit a pull request, please run `make lint` and `make format` to correct any errors.
 Otherwise, the test on CircleCI will fail, and this prevents merging.
 Also, if adding a new file, please run `make add-license` to add the license statement to the file.
@@ -81,6 +82,6 @@ For the guideline of official Go language, please refer to the following website
 
 ## Contributor License Agreement (CLA)
 
-Keep in mind when you submit your pull request, you'll need to sign the CLA via [CLA-Assistant](https://cla-assistant.io/klaytn/rosetta-klaytn) for legal purposes. You will have to sign the CLA just one time, either as an individual or corporation.
+Keep in mind when you submit your pull request, you'll need to sign the CLA via [CLA-Assistant](https://cla-assistant.io/kaiachain/rosetta-kaia) for legal purposes. You will have to sign the CLA just one time, either as an individual or corporation.
 
 You will be prompted to sign the agreement by CLA Assistant (bot) when you open a Pull Request for the first time.

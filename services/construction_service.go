@@ -14,6 +14,8 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package services
 
@@ -25,13 +27,11 @@ import (
 	"math/big"
 	"strconv"
 
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	"github.com/kaiachain/rosetta-kaia/kaia"
+	klayTypes "github.com/klaytn/klaytn/blockchain/types"
 	"github.com/klaytn/klaytn/common"
 	"github.com/klaytn/klaytn/crypto"
-	"github.com/klaytn/rosetta-klaytn/klaytn"
-
-	klayTypes "github.com/klaytn/klaytn/blockchain/types"
-	"github.com/klaytn/rosetta-klaytn/configuration"
-
 	"github.com/klaytn/rosetta-sdk-go-klaytn/parser"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
 )
@@ -86,7 +86,7 @@ func (s *ConstructionAPIService) ConstructionDerive(
 		},
 	}, nil
 	// // We cannot serve /construction/derive
-	// // because we need to get account info from Klaytn Node.
+	// // because we need to get account info from Kaia Node.
 	// if s.config.Mode != configuration.Online {
 	// 	return nil, ErrUnavailableOffline
 	// }
@@ -97,8 +97,8 @@ func (s *ConstructionAPIService) ConstructionDerive(
 	// derived := false
 	// // User can send an address string in metadata.
 	// // If user do not send address via metadata, then derive an address from the public key.
-	// // If an address is existed in metadata, then get account info from Klaytn
-	// // to compare the public key parameter and the public key in the Klaytn account.
+	// // If an address is existed in metadata, then get account info from Kaia
+	// // to compare the public key parameter and the public key in the Kaia account.
 	// if request.Metadata == nil {
 	// 	addr, tErr = derivedAddress(request.PublicKey.Bytes)
 	// 	if tErr != nil {
@@ -112,13 +112,13 @@ func (s *ConstructionAPIService) ConstructionDerive(
 	// 	}
 	// }
 	//
-	// // Get a Klaytn account to get account key.
+	// // Get a Kaia account to get account key.
 	// acct, err := s.client.GetAccount(ctx, addr, "latest")
 	// if err != nil {
 	// 	return nil, wrapErrWithMetadata(ErrGetAccountAPI, acct, err)
 	// }
 	// if acct == nil {
-	// 	// "acct == nil" means that Klaytn does not have any state with that account.
+	// 	// "acct == nil" means that Kaia does not have any state with that account.
 	// 	// So we need to proceed derive process with default account that has AccountKeyLegacy.
 	// 	acct = map[string]interface{}{
 	// 		"accType": float64(1),
@@ -131,7 +131,7 @@ func (s *ConstructionAPIService) ConstructionDerive(
 	// 	}
 	// }
 	//
-	// // The Klaytn account returned from client format is below.
+	// // The Kaia account returned from client format is below.
 	// // {
 	// // 	 accType: 1,
 	// // 	 account: {
@@ -185,7 +185,7 @@ func (s *ConstructionAPIService) ConstructionDerive(
 }
 
 // // validatePubKeyForKeyTypes validates public key byte array received by user as a parameter
-// // depends on key type of the Klaytn account.
+// // depends on key type of the Kaia account.
 // func validatePubKeyForKeyTypes(
 // 	addr string,
 // 	keyMap map[string]interface{},
@@ -346,25 +346,25 @@ func (s *ConstructionAPIService) ConstructionPreprocess(
 	descriptions := &parser.Descriptions{
 		OperationDescriptions: []*parser.OperationDescription{
 			{
-				Type: klaytn.CallOpType,
+				Type: kaia.CallOpType,
 				Account: &parser.AccountDescription{
 					Exists: true,
 				},
 				Amount: &parser.AmountDescription{
 					Exists:   true,
 					Sign:     parser.NegativeAmountSign,
-					Currency: klaytn.Currency,
+					Currency: kaia.Currency,
 				},
 			},
 			{
-				Type: klaytn.CallOpType,
+				Type: kaia.CallOpType,
 				Account: &parser.AccountDescription{
 					Exists: true,
 				},
 				Amount: &parser.AmountDescription{
 					Exists:   true,
 					Sign:     parser.PositiveAmountSign,
-					Currency: klaytn.Currency,
+					Currency: kaia.Currency,
 				},
 			},
 		},
@@ -382,13 +382,13 @@ func (s *ConstructionAPIService) ConstructionPreprocess(
 	toAdd := toOp.Account.Address
 
 	// Ensure valid from address
-	checkFrom, ok := klaytn.ChecksumAddress(fromAdd)
+	checkFrom, ok := kaia.ChecksumAddress(fromAdd)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", fromAdd))
 	}
 
 	// Ensure valid to address
-	_, ok = klaytn.ChecksumAddress(toAdd)
+	_, ok = kaia.ChecksumAddress(toAdd)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", toAdd))
 	}
@@ -431,11 +431,11 @@ func (s *ConstructionAPIService) ConstructionMetadata(
 	}
 	nonce, err := s.client.PendingNonceAt(ctx, common.HexToAddress(input.From))
 	if err != nil {
-		return nil, wrapErr(ErrKlaytnClient, err)
+		return nil, wrapErr(ErrClient, err)
 	}
 	gasPrice, err := s.client.SuggestGasPrice(ctx)
 	if err != nil {
-		return nil, wrapErr(ErrKlaytnClient, err)
+		return nil, wrapErr(ErrClient, err)
 	}
 
 	metadata := &metadata{
@@ -449,14 +449,14 @@ func (s *ConstructionAPIService) ConstructionMetadata(
 	}
 
 	// Find suggested gas usage
-	suggestedFee := metadata.GasPrice.Int64() * klaytn.TransferGasLimit
+	suggestedFee := metadata.GasPrice.Int64() * kaia.TransferGasLimit
 
 	return &types.ConstructionMetadataResponse{
 		Metadata: metadataMap,
 		SuggestedFee: []*types.Amount{
 			{
 				Value:    strconv.FormatInt(suggestedFee, 10), // nolint:gomnd
-				Currency: klaytn.Currency,
+				Currency: kaia.Currency,
 			},
 		},
 	}, nil
@@ -470,25 +470,25 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 	descriptions := &parser.Descriptions{
 		OperationDescriptions: []*parser.OperationDescription{
 			{
-				Type: klaytn.CallOpType,
+				Type: kaia.CallOpType,
 				Account: &parser.AccountDescription{
 					Exists: true,
 				},
 				Amount: &parser.AmountDescription{
 					Exists:   true,
 					Sign:     parser.NegativeAmountSign,
-					Currency: klaytn.Currency,
+					Currency: kaia.Currency,
 				},
 			},
 			{
-				Type: klaytn.CallOpType,
+				Type: kaia.CallOpType,
 				Account: &parser.AccountDescription{
 					Exists: true,
 				},
 				Amount: &parser.AmountDescription{
 					Exists:   true,
 					Sign:     parser.PositiveAmountSign,
-					Currency: klaytn.Currency,
+					Currency: kaia.Currency,
 				},
 			},
 		},
@@ -511,7 +511,7 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 	nonce := metadata.Nonce
 	gasPrice := metadata.GasPrice
 	chainID := s.config.Params.ChainID
-	transferGasLimit := uint64(klaytn.TransferGasLimit)
+	transferGasLimit := uint64(kaia.TransferGasLimit)
 	transferData := []byte{}
 
 	// Additional Fields for constructing custom Klaytn tx struct
@@ -519,13 +519,13 @@ func (s *ConstructionAPIService) ConstructionPayloads(
 	fromAdd := fromOp.Account.Address
 
 	// Ensure valid from address
-	checkFrom, ok := klaytn.ChecksumAddress(fromAdd)
+	checkFrom, ok := kaia.ChecksumAddress(fromAdd)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", fromAdd))
 	}
 
 	// Ensure valid to address
-	checkTo, ok := klaytn.ChecksumAddress(toAdd)
+	checkTo, ok := kaia.ChecksumAddress(toAdd)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", toAdd))
 	}
@@ -665,20 +665,20 @@ func (s *ConstructionAPIService) ConstructionParse(
 	}
 
 	// Ensure valid from address
-	checkFrom, ok := klaytn.ChecksumAddress(tx.From)
+	checkFrom, ok := kaia.ChecksumAddress(tx.From)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", tx.From))
 	}
 
 	// Ensure valid to address
-	checkTo, ok := klaytn.ChecksumAddress(tx.To)
+	checkTo, ok := kaia.ChecksumAddress(tx.To)
 	if !ok {
 		return nil, wrapErr(ErrInvalidAddress, fmt.Errorf("%s is not a valid address", tx.To))
 	}
 
 	ops := []*types.Operation{
 		{
-			Type: klaytn.CallOpType,
+			Type: kaia.CallOpType,
 			OperationIdentifier: &types.OperationIdentifier{
 				Index: 0,
 			},
@@ -687,11 +687,11 @@ func (s *ConstructionAPIService) ConstructionParse(
 			},
 			Amount: &types.Amount{
 				Value:    new(big.Int).Neg(tx.Value).String(),
-				Currency: klaytn.Currency,
+				Currency: kaia.Currency,
 			},
 		},
 		{
-			Type: klaytn.CallOpType,
+			Type: kaia.CallOpType,
 			OperationIdentifier: &types.OperationIdentifier{
 				Index: 1,
 			},
@@ -705,7 +705,7 @@ func (s *ConstructionAPIService) ConstructionParse(
 			},
 			Amount: &types.Amount{
 				Value:    tx.Value.String(),
-				Currency: klaytn.Currency,
+				Currency: kaia.Currency,
 			},
 		},
 	}

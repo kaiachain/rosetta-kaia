@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package klaytn
+package kaia
 
 import (
 	"context"
@@ -25,20 +25,18 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/klaytn/klaytn/node/cn/tracers"
-
+	mocks "github.com/kaiachain/rosetta-kaia/mocks/kaia"
 	"github.com/klaytn/klaytn"
 	"github.com/klaytn/klaytn/blockchain/types"
 	"github.com/klaytn/klaytn/blockchain/types/account"
 	"github.com/klaytn/klaytn/common"
+	"github.com/klaytn/klaytn/common/hexutil"
 	"github.com/klaytn/klaytn/networks/p2p"
+	"github.com/klaytn/klaytn/node/cn/tracers"
 	"github.com/klaytn/klaytn/params"
 	"github.com/klaytn/klaytn/reward"
-
-	mocks "github.com/klaytn/rosetta-klaytn/mocks/klaytn"
-
-	"github.com/klaytn/klaytn/common/hexutil"
 	RosettaTypes "github.com/klaytn/rosetta-sdk-go-klaytn/types"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/sync/semaphore"

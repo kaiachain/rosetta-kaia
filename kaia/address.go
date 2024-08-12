@@ -17,19 +17,35 @@
 // Modifications Copyright 2024 Rosetta-kaia developers
 // Modified and improved for the Kaia development
 
-package main
+package kaia
 
 import (
-	"os"
+	"log"
 
-	"github.com/fatih/color"
-	"github.com/kaiachain/rosetta-kaia/cmd"
+	"github.com/klaytn/klaytn/common"
 )
 
-func main() {
-	err := cmd.Execute()
-	if err != nil {
-		color.Red(err.Error())
-		os.Exit(1)
+// ChecksumAddress ensures a hex address
+// is in Checksum Format. If the address cannot be converted,
+// it returns !ok.
+func ChecksumAddress(address string) (string, bool) {
+	if isHexAddress := common.IsHexAddress(address); !isHexAddress {
+		return "", false
 	}
+
+	addr := common.HexToAddress(address)
+
+	return addr.Hex(), true
+}
+
+// MustChecksum ensures an address can be converted
+// into a valid checksum. If it does not, the program
+// will exit.
+func MustChecksum(address string) string {
+	addr, ok := ChecksumAddress(address)
+	if !ok {
+		log.Fatalf("invalid address %s", address)
+	}
+
+	return addr
 }

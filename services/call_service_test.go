@@ -13,7 +13,9 @@
 // limitations under the License.
 //
 // Modifications Copyright © 2022 Klaytn
-// Modified and improved for the Klaytn development.s
+// Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package services
 
@@ -21,8 +23,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/klaytn/rosetta-klaytn/configuration"
-	mocks "github.com/klaytn/rosetta-klaytn/mocks/services"
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	mocks "github.com/kaiachain/rosetta-kaia/mocks/services"
 
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
 	"github.com/stretchr/testify/assert"

@@ -1,3 +1,4 @@
+# Copyright 2024 Rosetta-kaia developers
 # Copyright 2022 Klaytn
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Run rosetta-klaytn for mainnet
+# Run rosetta-kaia for mainnet
 # Use this script when you want to run it in the terminal.
 
 export MODE=ONLINE

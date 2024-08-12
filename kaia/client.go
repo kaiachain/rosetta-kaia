@@ -14,8 +14,10 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development
 
-package klaytn
+package kaia
 
 import (
 	"context"
@@ -30,17 +32,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/klaytn/klaytn/accounts/abi"
-	"github.com/klaytn/klaytn/contracts/kip103"
-	"github.com/klaytn/klaytn/node/cn/tracers"
-
 	"github.com/klaytn/klaytn"
+	"github.com/klaytn/klaytn/accounts/abi"
 	"github.com/klaytn/klaytn/blockchain/types"
 	"github.com/klaytn/klaytn/blockchain/types/account"
 	"github.com/klaytn/klaytn/common"
 	"github.com/klaytn/klaytn/common/hexutil"
+	"github.com/klaytn/klaytn/contracts/kip103"
 	"github.com/klaytn/klaytn/networks/p2p"
 	"github.com/klaytn/klaytn/networks/rpc"
+	"github.com/klaytn/klaytn/node/cn/tracers"
 	"github.com/klaytn/klaytn/params"
 	"github.com/klaytn/klaytn/reward"
 	"github.com/klaytn/klaytn/rlp"

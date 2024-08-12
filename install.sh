@@ -15,6 +15,8 @@
 #
 # Modifications Copyright © 2022 Klaytn
 # Modified and improved for the Klaytn development
+# Modifications Copyright 2024 Rosetta-kaia developers
+# Modified and improved for the Kaia development
 
 set -e
 
@@ -23,7 +25,7 @@ set -e
 usage() {
   this=$1
   cat <<EOF
-$this: download pre-compiled Docker images for klaytn/rosetta-klaytn
+$this: download pre-compiled Docker images for kaiachain/rosetta-kaia
 
 Usage: $this [-d]
   -d turns on debug logging
@@ -47,8 +49,8 @@ execute() {
   log_info "downloading image into ${tmpdir}"
   http_download "${tmpdir}/${TARBALL}" "${TARBALL_URL}" "" "1"
   docker load --input "${tmpdir}/${TARBALL}"
-  docker tag "rosetta-klaytn:${TAG}" "rosetta-klaytn:latest"
-  log_info "loaded rosetta-klaytn:${TAG} and tagged as rosetta-klaytn:latest"
+  docker tag "rosetta-kaia:${TAG}" "rosetta-kaia:latest"
+  log_info "loaded rosetta-kaia:${TAG} and tagged as rosetta-kaia:latest"
   rm -rf "${tmpdir}"
   log_info "removed temporary directory ${tmpdir}"
 }
@@ -199,10 +201,10 @@ End of functions from https://github.com/client9/shlib
 ------------------------------------------------------------------------
 EOF
 
-BINARY=rosetta-klaytn
+BINARY=rosetta-kaia
 FORMAT=tar.gz
-OWNER=klaytn
-REPO="rosetta-klaytn"
+OWNER=kaiachain
+REPO="rosetta-kaia"
 PREFIX="$OWNER/$REPO"
 
 # use in logging routines

@@ -14,6 +14,8 @@
 //
 // Modifications Copyright © 2022 Klaytn
 // Modified and improved for the Klaytn development.
+// Modifications Copyright 2024 Rosetta-kaia developers
+// Modified and improved for the Kaia development.
 
 package cmd
 
@@ -25,14 +27,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/klaytn/rosetta-klaytn/klaytn"
-
-	"github.com/klaytn/rosetta-klaytn/configuration"
-	"github.com/klaytn/rosetta-klaytn/services"
-
+	"github.com/kaiachain/rosetta-kaia/configuration"
+	"github.com/kaiachain/rosetta-kaia/kaia"
+	"github.com/kaiachain/rosetta-kaia/services"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/asserter"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/server"
 	"github.com/klaytn/rosetta-sdk-go-klaytn/types"
+
 	"github.com/spf13/cobra"
 	"golang.org/x/sync/errgroup"
 )
@@ -55,7 +56,7 @@ const (
 var (
 	runCmd = &cobra.Command{
 		Use:   "run",
-		Short: "Run rosetta-klaytn",
+		Short: "Run rosetta-kaia",
 		RunE:  runRunCmd,
 	}
 )
@@ -69,11 +70,11 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 	// The asserter automatically rejects incorrectly formatted
 	// requests.
 	asserter, err := asserter.NewServer(
-		klaytn.OperationTypes,
-		klaytn.HistoricalBalanceSupported,
+		kaia.OperationTypes,
+		kaia.HistoricalBalanceSupported,
 		[]*types.NetworkIdentifier{cfg.Network},
-		klaytn.CallMethods,
-		klaytn.IncludeMempoolCoins,
+		kaia.CallMethods,
+		kaia.IncludeMempoolCoins,
 		"",
 	)
 	if err != nil {
@@ -87,18 +88,18 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 
 	g, ctx := errgroup.WithContext(ctx)
 
-	var client *klaytn.Client
+	var client *kaia.Client
 	if cfg.Mode == configuration.Online {
 		if !cfg.RemoteNode {
 			g.Go(func() error {
-				return klaytn.StartKlaytnNode(ctx, cfg.KlaytnNodeArguments, g)
+				return kaia.StartNode(ctx, cfg.NodeArguments, g)
 			})
 		}
 
 		var err error
-		client, err = klaytn.NewClient(cfg.KlaytnNodeURL, cfg.Params, cfg.SkipAdmin)
+		client, err = kaia.NewClient(cfg.NodeURL, cfg.Params, cfg.SkipAdmin)
 		if err != nil {
-			return fmt.Errorf("%w: cannot initialize klaytn client", err)
+			return fmt.Errorf("%w: cannot initialize client", err)
 		}
 		defer client.Close()
 	}
@@ -131,7 +132,7 @@ func runRunCmd(cmd *cobra.Command, args []string) error {
 
 	err = g.Wait()
 	if SignalReceived {
-		return errors.New("rosetta-klaytn halted")
+		return errors.New("rosetta-kaia halted")
 	}
 
 	return err

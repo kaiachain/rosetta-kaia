@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fetch tags from upstream first
-git fetch -t git@github.com:klaytn/rosetta-klaytn.git
+git fetch -t git@github.com:kaiachain/rosetta-kaia.git
 
 VERSION=$(cat configuration/configuration.go | grep "MiddlewareVersion = " | sed -e 's/.*MiddlewareVersion = \"\(.*\)\"/\1/')
 echo "Trying to tag v$VERSION"
