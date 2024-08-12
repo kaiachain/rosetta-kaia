@@ -21,3 +21,5 @@ jobs:
           branch: "master"
           allowlist: dependabot[bot]
           remote-repository-name: ${{ secrets.CLA_REPOSITORY }}
+
+          
